@@ -24,8 +24,9 @@ var renderHtml = function(url, cb) {
     var page = require('webpage').create();
     page.settings.loadImages = false;
     page.settings.localToRemoteUrlAccessEnabled = true;
-    page.onCallback = function() {
-        cb(page.content);
+    page.onCallback = function(data) {
+        var status = data && data.status ? data.status : 200;
+        cb(page.content, status);
         page.close();
     };
 //    page.onConsoleMessage = function(msg, lineNum, sourceId) {
@@ -42,12 +43,13 @@ var renderHtml = function(url, cb) {
 };
 
 server.listen(port, function (request, response) {
+    var url = urlPrefix + request.url;
     var route = parse_qs(request.url)._escaped_fragment_;
-    var url = urlPrefix
-      + request.url.slice(1, request.url.indexOf('?'))
-      + '#!' + decodeURIComponent(route);
-    renderHtml(url, function(html) {
-        response.statusCode = 200;
+    if(route){
+        url = urlPrefix + route;
+    }
+    renderHtml(url, function(html, statusCode) {
+        response.statusCode = statusCode;
         response.write(html);
         response.close();
     });

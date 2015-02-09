@@ -4,11 +4,12 @@
             .run([
                 '$rootScope',
                 function($rootScope) {
-                    $rootScope.htmlReady = function() {
+                    $rootScope.htmlReady = function(data) {
+                        data = data || {};
                         $rootScope.$evalAsync(function() { // fire after $digest
                             setTimeout(function() { // fire after DOM rendering
                                 if (typeof window.callPhantom == 'function') { 
-                                    window.callPhantom();
+                                    window.callPhantom(data);
                                 }
                             }, 0);
                         });
