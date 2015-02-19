@@ -50,6 +50,7 @@ server.listen(port, function (request, response) {
     }
     renderHtml(url, function(html, statusCode) {
         response.statusCode = statusCode;
+		response.setHeader('Content-Type', 'text/html');
         response.write(html);
         response.close();
     });
