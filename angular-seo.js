@@ -2,7 +2,7 @@
     var getModule = function(angular) {
         return angular.module('seo', [])
             .run([
-                '$rootScope',
+                '$rootScope', '$animate',
                 function($rootScope, $animate) {
                     if (typeof window.callPhantom == 'function') {
                         $animate.enabled(false);
