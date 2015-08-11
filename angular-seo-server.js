@@ -7,7 +7,6 @@ if (system.args.length < 3) {
 
 var server = require('webserver').create();
 var port = parseInt(system.args[1]);
-var urlPrefix = system.args[2];
 
 var parse_qs = function(s) {
     var queryString = {};
@@ -43,10 +42,10 @@ var renderHtml = function(url, cb) {
 };
 
 server.listen(port, function (request, response) {
-    var url = urlPrefix + request.url;
+    var url = 'https://' + request.headers.Host + request.url;
     var route = parse_qs(request.url)._escaped_fragment_;
     if(route){
-        url = urlPrefix + route;
+         url = 'https://' + request.headers.Host + route;
     }
     renderHtml(url, function(html, statusCode) {
         response.statusCode = statusCode;
