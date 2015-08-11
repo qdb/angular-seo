@@ -3,7 +3,10 @@
         return angular.module('seo', [])
             .run([
                 '$rootScope',
-                function($rootScope) {
+                function($rootScope, $animate) {
+                    if (typeof window.callPhantom == 'function') {
+                        $animate.enabled(false);
+                    }
                     $rootScope.htmlReady = function(data) {
                         data = data || {};
                         $rootScope.$evalAsync(function() { // fire after $digest
