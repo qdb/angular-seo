@@ -1,6 +1,6 @@
 var system = require('system');
 
-if (system.args.length < 3) {
+if (system.args.length < 2) {
     console.log("Missing arguments.");
     phantom.exit();
 }
@@ -38,6 +38,8 @@ var renderHtml = function(url, cb) {
             }, 10000);
         });
     };
+    // make sure no cookies will be used
+    phantom.clearCookies();
     page.open(url);
 };
 
